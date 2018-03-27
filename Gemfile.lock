@@ -1,0 +1,22 @@
+PATH
+  remote: .
+  specs:
+    sso_authlogic_client (0.1.0)
+      oauth (~> 0.5.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    oauth (0.5.4)
+    rake (10.5.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.16)
+  rake (~> 10.0)
+  sso_authlogic_client!
+
+BUNDLED WITH
+   1.16.0
