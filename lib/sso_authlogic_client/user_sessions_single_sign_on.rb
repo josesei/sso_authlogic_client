@@ -1,8 +1,3 @@
-## This file is shared between all of our services, please make sure to update it in all projects
-#
-#
-# -----------------------------------------------------------------------------------------------
-
 module SsoAuthlogicClient::UserSessionsSingleSignOn
   OAUTH_NONCE_KEY_EXPIRATION = 2 * 60 * 60 # 2 hours
   OAUTH_TIMESTAMP_ALLOWED_OFFSET = 2 * 60 # 2 minutes
@@ -88,7 +83,7 @@ module SsoAuthlogicClient::UserSessionsSingleSignOn
     if OAuth::Signature::HMAC::SHA1.new(req, :consumer_secret => login_service['secret_access_key']).verify
       authenticated_user = User.find(params[:user_id])
       authenticated_user.reset_perishable_token!
-      render json: Cryptic.obscure(authenticated_user.perishable_token, login_service['secret_access_key'])
+      render json: SsoAuthlogicClient::Cryptic.obscure(authenticated_user.perishable_token, login_service['secret_access_key'])
       # dont need to keep these keys around for ever because we check the timestamp
       REDIS.setex(nonce_redis_key, OAUTH_NONCE_KEY_EXPIRATION, params[:oauth_timestamp])
     else
