@@ -20,6 +20,7 @@ module SsoAuthlogicClient::ApplicationSingleSignOn
     end
     return unless request.get? && session[:remote_login_allowed]
     if session[:last_remote_login_attempt].nil? || session[:last_remote_login_attempt] < Time.now - 30.seconds
+      store_location
       redirect_to "#{login_service['login_service_base_url']}/check_login?client_key=#{login_service['access_key_id']}&redirect_url=#{request.original_url}"
       session[:last_remote_login_attempt] = Time.now
     end
