@@ -25,7 +25,7 @@ module SsoAuthlogicClient::UserSessionsSingleSignOn
       @user_session.login = login if @user_session.respond_to?(:login)
       @login_service_client_key = login_service.try(:[], :access_key_id)
       @login_service_url = user_sessions_path
-      @login_service_url = "#{login_service['login_service_base_url']}/user_sessions" if login_service && session[:remote_login_allowed]
+      @login_service_url = "#{login_service['login_service_base_url']}/user_sessions" if login_service && !login_service['force_local_login'] && session[:remote_login_allowed]
     else
       redirect_to "#{login_service['login_service_base_url']}/login?client_key=#{login_service['access_key_id']}&redirect_url=#{request.base_url}/login?do_login=true"
     end
