@@ -1,3 +1,5 @@
+require "cgi"
+
 module SsoAuthlogicClient::UserSessionsSingleSignOn
   OAUTH_NONCE_KEY_EXPIRATION = 2 * 60 * 60 # 2 hours
   OAUTH_TIMESTAMP_ALLOWED_OFFSET = 2 * 60 # 2 minutes
@@ -33,7 +35,7 @@ module SsoAuthlogicClient::UserSessionsSingleSignOn
 
   def destroy
     if session[:remote_login_allowed] && login_service
-      original_referrer = URI.encode("#{request.base_url}")
+      original_referrer = CGI.escape("#{request.base_url}")
       redirect_to "#{login_service['login_service_base_url']}/logout?original_referrer=#{original_referrer}"
       current_user_session.destroy if current_user_session
     else
